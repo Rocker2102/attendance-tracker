@@ -6,8 +6,8 @@
         private $db_name = "attendance_tracker";
         private $username = "root";
         private $password = "";
-        private $db;
-        private $error;
+        private $db = null;
+        private $error = "";
 
         function __construct() {
             try {
