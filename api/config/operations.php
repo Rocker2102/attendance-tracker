@@ -24,6 +24,15 @@
             return $ip;
         }
 
+        public static function remove_keys(array &$arr, array $remove) {
+            $max_len = count($remove);
+            for ($i = 0; $i < $max_len; $i++) {
+                if (isset($arr[$remove[$i]])) {
+                    unset($arr[$remove[$i]]);
+                }
+            }
+        }
+
         public static function escape_array(array &$data, array $skip = []) {
             foreach ($data as $key => $value) {
                 if (in_array($key, $skip)) {
@@ -292,6 +301,18 @@
         }
     }
 
+    function check_request_method(array $allowed) {
+        return in_array(strtoupper($_SERVER["REQUEST_METHOD"]), $allowed);
+    }
+
+    function get_access_token() {
+        if (isset($_SERVER["HTTP_X_ACCESS_TOKEN"]) && !empty($_SERVER["HTTP_X_ACCESS_TOKEN"])) {
+            return trim($_SERVER["HTTP_X_ACCESS_TOKEN"]);
+        } else {
+            return false;
+        }
+    }
+
     function get_input_data($input_stream, $post_data) {
         if (!empty($post_data)) {
             return $post_data;
@@ -305,9 +326,9 @@
         return $arr;
     }
 
-    function send_response($httpcode, array $response = null) {
+    function send_response($httpcode, array $response = null, array $merge = []) {
         http_response_code($httpcode);
-        echo $response == null ? "" : json_encode($response);
+        echo $response == null ? "" : json_encode(array_merge($response, $merge));
         exit();
     }
 ?>
