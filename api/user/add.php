@@ -55,7 +55,7 @@
             "message" => "Account created"
         ));
     } else {
-        send_response(400, $error->db_error(1), array(
+        send_response(503, $error->db_error(1), array(
             "info" => "Check for duplicate username"
         ));
     }
