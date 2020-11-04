@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 03, 2020 at 09:20 AM
+-- Generation Time: Nov 04, 2020 at 07:31 AM
 -- Server version: 10.4.14-MariaDB
 -- PHP Version: 7.4.10
 
@@ -24,13 +24,26 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `access_tokens`
+--
+
+CREATE TABLE `access_tokens` (
+  `user_id` int(8) NOT NULL,
+  `token` varchar(1024) NOT NULL,
+  `issued_on` timestamp NOT NULL DEFAULT current_timestamp(),
+  `expires` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `attendance`
 --
 
 CREATE TABLE `attendance` (
   `user_id` int(8) NOT NULL,
   `subject_id` varchar(8) NOT NULL,
-  `present` int(4) NOT NULL DEFAULT 0,
+  `absent` int(4) NOT NULL DEFAULT 0,
   `total` int(4) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
