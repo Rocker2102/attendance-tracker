@@ -3,7 +3,7 @@
     require "../config/operations.php";
     require "../config/error_def.php";
 
-    $allowed_req_methods = ["POST", "PUT"];
+    $allowed_req_methods = ["POST", "GET"];
     $error = new Error_Definitions;
 
     if (!check_request_method($allowed_req_methods)) {
