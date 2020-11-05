@@ -7,17 +7,14 @@
     $error = new Error_Definitions;
 
     if (!check_request_method($allowed_req_methods)) {
-        send_response(400, $error->data_error(1));
+        send_response(405, $error->data_error(1));
     }
 
-    $access_token = get_access_token();
-    if (!$access_token) {
-        send_response(401, $error->custom("ERR_API_AUTH", "Access Token missing"));
-    }
+    require "../config/preflight.php";
 
     require "../config/database.php";
     $database = new Database;
-    $db = $database->get_connect_var();
+    $connect = $database->get_connect_var();
 
     $data = get_input_data(file_get_contents("php://input"), $_POST);
 
@@ -47,12 +44,17 @@
     $query->set_columns(array_keys($data));
     $query->set_values(array_values($data));
 
-    $db->query($query->get_query());
+    $connect->query($query->get_query());
 
-    if (mysqli_affected_rows($db) == 1) {
+    if (mysqli_affected_rows($connect) == 1) {
         send_response(201, array(
             "error" => false,
-            "message" => "Account created"
+            "message" => "Account created",
+            "data" => array(
+                "username" => $data["username"],
+                "name" => $data["name"],
+                "identifier" => $connect->insert_id
+            )
         ));
     } else {
         send_response(503, $error->db_error(1), array(
