@@ -57,11 +57,16 @@
         @Authenticate::delete_all($connect, $user_id);
         send_response(200, array(
             "error" => false,
-            "message" => "User Account deleted"
+            "message" => "User Account deleted",
+            "redirect" => HOME_URL
         ));
     } else {
         send_response(500, $error->db_error(2), array(
-            "info" => "Check if password is correct or try after some time"
+            "info" => [
+                "Check if password is correct",
+                "Check if the user account exists",
+                "Send request with a new token"
+            ]
         ));
     }
 ?>
