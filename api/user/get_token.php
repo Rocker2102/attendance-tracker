@@ -35,6 +35,7 @@
     Utility::escape_array($data);
 
     $query = new Build_Query("users", "select");
+    $query->set_columns(["user_id"]);
     $query->set_conditions([
         ["username", $data["username"]],
         ["password", Utility::get_hash($data["password"])]
@@ -52,17 +53,14 @@
         unset($user["password"]);
     }
 
-    $token = [
-        $user["user_id"],
-        time() . Utility::get_random_str(8),
-        Utility::get_random_str(32)
-    ];
+    $token = Authenticate::generate_token($user["user_id"]);
+    $client_ip = Utility::get_client_ip();
     $expires = date("Y-m-d H:i:s", time() + TOKEN_VALIDITY);
 
     $query->set_table("access_tokens");
     $query->set_type("insert");
-    $query->set_columns(["user_id", "token_id", "token_payload", "expires"]);
-    $query->set_values(array_merge($token, [$expires]));
+    $query->set_columns(["user_id", "token_id", "token_payload", "ip", "expires"]);
+    $query->set_values(array_merge($token, [$client_ip, $expires]));
 
     Authenticate::delete_all_expired($connect, $user["user_id"]);
     $connect->query($query->get_query());

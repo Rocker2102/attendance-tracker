@@ -304,14 +304,22 @@
     }
 
     class Authenticate {
-        private function is_valid($expires) {
+        private function is_valid(string $expires) {
             $current = time();
             $expires = strtotime($expires);
 
             return $expires > $current;
         }
 
-        public static function split_token($token) {
+        public static function generate_token($user_id) {
+            return [
+                $user_id,
+                time() . Utility::get_random_str(8),
+                Utility::get_random_str(32)
+            ];
+        }
+
+        public static function split_token(string $token) {
             $token = explode(".", $token);
             return count($token) == 3 ? array(
                 "user_id" => $token[0],
@@ -320,7 +328,7 @@
             ) : false;
         }
 
-        public static function get_user_id($token) {
+        public static function get_user_id(string $token) {
             $token = self::split_token($token);
             return $token["user_id"];
         }
@@ -367,7 +375,8 @@
             $query->set_conditions([
                 ["user_id", $token["user_id"]],
                 ["token_id", $token["token_id"]],
-                ["token_payload", $token["token_payload"]]
+                ["token_payload", $token["token_payload"]],
+                ["ip", Utility::get_client_ip()]
             ]);
 
             try {
@@ -377,10 +386,11 @@
                     if (self::is_valid($row["expires"])) {
                         return true;
                     } else {
-                        echo self::delete_access_token($connect, join(".", $token));
+                        @self::delete_access_token($connect, join(".", $token));
                         return false;
                     }
                 } else {
+                    @self::delete_access_token($connect, join(".", $token));
                     return false;
                 }
             } catch (Exception $e) {
