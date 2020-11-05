@@ -71,9 +71,10 @@
         send_response(200, array(
             "error" => false,
             "message" => "Token granted",
-            "data" => $user,
-            "token" => implode(".", $token),
-            "valid_till" => $expires
+            "data" => array(
+                "token" => implode(".", $token),
+                "valid_till" => $expires
+            )
         ));
     } else {
         send_response(500, array(
