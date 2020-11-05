@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 04, 2020 at 07:31 AM
+-- Generation Time: Nov 05, 2020 at 02:46 PM
 -- Server version: 10.4.14-MariaDB
 -- PHP Version: 7.4.10
 
@@ -24,27 +24,29 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `access_tokens`
+-- Table structure for table `absent`
 --
 
-CREATE TABLE `access_tokens` (
+CREATE TABLE `absent` (
   `user_id` int(8) NOT NULL,
-  `token` varchar(1024) NOT NULL,
-  `issued_on` timestamp NOT NULL DEFAULT current_timestamp(),
-  `expires` timestamp NULL DEFAULT NULL
+  `subject_id` varchar(8) NOT NULL,
+  `date` date NOT NULL,
+  `note` varchar(128) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `attendance`
+-- Table structure for table `access_tokens`
 --
 
-CREATE TABLE `attendance` (
+CREATE TABLE `access_tokens` (
   `user_id` int(8) NOT NULL,
-  `subject_id` varchar(8) NOT NULL,
-  `absent` int(4) NOT NULL DEFAULT 0,
-  `total` int(4) NOT NULL DEFAULT 0
+  `token_id` varchar(1024) CHARACTER SET latin1 COLLATE latin1_general_cs NOT NULL,
+  `token_payload` varchar(1024) CHARACTER SET latin1 COLLATE latin1_general_cs NOT NULL,
+  `ip` varchar(32) NOT NULL,
+  `issued_on` timestamp NOT NULL DEFAULT current_timestamp(),
+  `expires` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -61,12 +63,37 @@ CREATE TABLE `enrolled` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `holidays`
+--
+
+CREATE TABLE `holidays` (
+  `user_id` int(8) NOT NULL,
+  `subject_id` varchar(8) NOT NULL,
+  `date` date NOT NULL,
+  `note` varchar(128) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `subjects`
 --
 
 CREATE TABLE `subjects` (
   `subject_id` varchar(8) NOT NULL,
   `name` varchar(64) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `total_classes`
+--
+
+CREATE TABLE `total_classes` (
+  `user_id` int(8) NOT NULL,
+  `subject_id` varchar(8) NOT NULL,
+  `total` int(4) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -86,6 +113,12 @@ CREATE TABLE `users` (
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `access_tokens`
+--
+ALTER TABLE `access_tokens`
+  ADD UNIQUE KEY `token_id` (`token_id`);
 
 --
 -- Indexes for table `subjects`
