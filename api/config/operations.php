@@ -425,6 +425,12 @@
         return $arr;
     }
 
+    function is_username_available($connect, $username) {
+        $query = "SELECT user_id FROM users WHERE username = '$username'";
+        $result = $connect->query($query);
+        return $result->num_rows == 0;
+    }
+
     function send_response($httpcode, array $response = null, array $merge = []) {
         http_response_code($httpcode);
         echo $response == null ? "" : json_encode(array_merge($response, $merge));
