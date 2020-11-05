@@ -17,10 +17,6 @@
         send_response(401, $error->custom("ERR_API_AUTH", "Access Token missing"));
     }
 
-    require "../config/database.php";
-    $database = new Database;
-    $connect = $database->get_connect_var();
-
     $data = get_input_data(file_get_contents("php://input"), $_POST);
 
     if ($data == null || empty($data)) {
@@ -39,6 +35,10 @@
 
     Utility::escape_array($data);
 
+    require "../config/database.php";
+    $database = new Database;
+    $connect = $database->get_connect_var();
+
     if (!Authenticate::verify_access_token($connect, $access_token)) {
         send_response(401, $error->custom("ERR_API_TOKEN", "Token invalid or expired!"));
     }
@@ -55,7 +55,7 @@
 
     if (mysqli_affected_rows($connect) == 1) {
         @Authenticate::delete_all($connect, $user_id);
-        send_response(200, array(
+        send_response(202, array(
             "error" => false,
             "message" => "User Account deleted",
             "redirect" => HOME_URL
