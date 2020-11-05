@@ -1,5 +1,6 @@
 <?php
     define("HASH_SALT", "AtTEnD@nc3-SiTe");
+    define("TOKEN_VALIDITY", 900);
     date_default_timezone_set("Asia/Kolkata");
 
     class Utility {
@@ -301,7 +302,94 @@
         }
     }
 
+    class Authenticate {
+        private function is_valid($expires) {
+            $current = time();
+            $expires = strtotime($expires);
+
+            return $expires > $current;
+        }
+
+        public static function split_token($token) {
+            $token = explode(".", $token);
+            return count($token) == 3 ? array(
+                "user_id" => $token[0],
+                "token_id" => $token[1],
+                "token_payload" => $token[2]
+            ) : false;
+        }
+
+        public static function get_user_id($token) {
+            $token = self::split_token($token);
+            return $token["user_id"];
+        }
+
+        public static function delete_access_token($connect, string $token) {
+            $token = self::split_token($token);
+            if (!$token) {
+                return false;
+            }
+
+            $query = new Build_Query("access_tokens", "delete");
+            $query->set_conditions([
+                ["user_id", $token["user_id"]],
+                ["token_id", $token["token_id"]]
+            ]);
+
+            $connect->query($query->get_query());
+            return mysqli_affected_rows($connect) == 1;
+        }
+
+        public static function delete_all($connect, $user_id) {
+            $query = "DELETE FROM access_tokens WHERE user_id = '$user_id'";
+
+            $connect->query($query);
+            return mysqli_affected_rows($connect) >= 1;
+        }
+
+        public static function delete_all_expired($connect, $user_id) {
+            $current = date("Y-m-d H:i:s");
+            $query = "DELETE FROM access_tokens WHERE user_id = '$user_id' AND expires < '$current'";
+
+            $connect->query($query);
+            return mysqli_affected_rows($connect) >= 1;
+        }
+
+        public static function verify_access_token($connect, string $token) {
+            $token = self::split_token($token);
+            if (!$token) {
+                return false;
+            }
+
+            $query = new Build_Query("access_tokens");
+            $query->set_columns(["expires"]);
+            $query->set_conditions([
+                ["user_id", $token["user_id"]],
+                ["token_id", $token["token_id"]],
+                ["token_payload", $token["token_payload"]]
+            ]);
+
+            try {
+                $result = $connect->query($query->get_query());
+                if ($result && $result->num_rows == 1) {
+                    $row = $result->fetch_assoc();
+                    if (self::is_valid($row["expires"])) {
+                        return true;
+                    } else {
+                        echo self::delete_access_token($connect, join(".", $token));
+                        return false;
+                    }
+                } else {
+                    return false;
+                }
+            } catch (Exception $e) {
+                return false;
+            }
+        }
+    }
+
     function check_request_method(array $allowed) {
+        array_push($allowed, "OPTIONS");
         return in_array(strtoupper($_SERVER["REQUEST_METHOD"]), $allowed);
     }
 
