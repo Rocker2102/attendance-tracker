@@ -1,0 +1,6 @@
+{
+    "status": "boolean",
+    "data": ["array", "object", "null", "string"],
+    "message": ["array", "string"],
+    "info": ["string", "array"]
+}
