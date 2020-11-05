@@ -3,7 +3,7 @@
     require "../config/operations.php";
     require "../config/error_def.php";
 
-    $allowed_req_methods = ["POST", "PUT"];
+    $allowed_req_methods = ["POST"];
     $error = new Error_Definitions;
 
     if (!check_request_method($allowed_req_methods)) {
@@ -57,7 +57,7 @@
             )
         ));
     } else {
-        send_response(503, $error->db_error(1), array(
+        send_response(409, $error->db_error(1), array(
             "info" => "Check for duplicate username"
         ));
     }
