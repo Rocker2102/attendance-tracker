@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 05, 2020 at 02:46 PM
+-- Generation Time: Nov 06, 2020 at 08:16 AM
 -- Server version: 10.4.14-MariaDB
 -- PHP Version: 7.4.10
 
@@ -57,7 +57,9 @@ CREATE TABLE `access_tokens` (
 
 CREATE TABLE `enrolled` (
   `user_id` int(8) NOT NULL,
-  `subject_id` varchar(8) NOT NULL
+  `subject_id` varchar(8) NOT NULL,
+  `weekly_off` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT '["saturday", "sunday"]',
+  `total_classes` int(4) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -82,18 +84,6 @@ CREATE TABLE `holidays` (
 CREATE TABLE `subjects` (
   `subject_id` varchar(8) NOT NULL,
   `name` varchar(64) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `total_classes`
---
-
-CREATE TABLE `total_classes` (
-  `user_id` int(8) NOT NULL,
-  `subject_id` varchar(8) NOT NULL,
-  `total` int(4) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
