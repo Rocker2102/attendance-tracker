@@ -1,6 +1,6 @@
 <?php
     define("HASH_SALT", "AtTEnD@nc3-SiTe");
-    define("TOKEN_VALIDITY", 900);
+    define("TOKEN_VALIDITY", 3600);
     define("HOME_URL", "http://localhost/development/attendance-tracker/");
     date_default_timezone_set("Asia/Kolkata");
 
