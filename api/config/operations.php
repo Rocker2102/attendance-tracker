@@ -2,6 +2,7 @@
     define("HASH_SALT", "AtTEnD@nc3-SiTe");
     define("TOKEN_VALIDITY", 3600);
     define("HOME_URL", "http://localhost/development/attendance-tracker/");
+    define("MIN_START_DATE", "2020-01-01");
     date_default_timezone_set("Asia/Kolkata");
 
     class Utility {
