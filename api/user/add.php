@@ -12,10 +12,6 @@
 
     require "../config/preflight.php";
 
-    require "../config/database.php";
-    $database = new Database;
-    $connect = $database->get_connect_var();
-
     $data = $_POST;
 
     if ($data == null || empty($data)) {
@@ -31,6 +27,10 @@
     if (!$data) {
         send_response(400, $error->form_error(1));
     }
+
+    require "../config/database.php";
+    $database = new Database;
+    $connect = $database->get_connect_var();
 
     if (!$validator->advanced($data["password"], "equals", $data["confirm_password"])) {
         send_response(400, $error->form_error(0, "Passwords do not match!"));
