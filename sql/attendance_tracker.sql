@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 07, 2020 at 06:48 AM
+-- Generation Time: Nov 07, 2020 at 12:37 PM
 -- Server version: 10.4.14-MariaDB
 -- PHP Version: 7.4.10
 
@@ -47,7 +47,8 @@ CREATE TABLE `attendance` (
   `user_id` int(8) NOT NULL,
   `subject_id` varchar(8) NOT NULL,
   `date` date NOT NULL,
-  `note` varchar(128) NOT NULL
+  `note` varchar(128) NOT NULL,
+  `identifier` varchar(1024) GENERATED ALWAYS AS (concat(`user_id`,`subject_id`,`date`)) VIRTUAL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -60,7 +61,8 @@ CREATE TABLE `enrolled` (
   `user_id` int(8) NOT NULL,
   `subject_id` varchar(8) NOT NULL,
   `start_date` date NOT NULL,
-  `weekly_off` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT '["saturday", "sunday"]'
+  `weekly_off` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT '["saturday", "sunday"]',
+  `identifier` varchar(1024) GENERATED ALWAYS AS (concat(`user_id`,`subject_id`)) VIRTUAL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -103,15 +105,17 @@ ALTER TABLE `access_tokens`
 -- Indexes for table `attendance`
 --
 ALTER TABLE `attendance`
-  ADD KEY `user_id` (`user_id`),
-  ADD KEY `subject_id` (`subject_id`);
+  ADD UNIQUE KEY `identifier` (`identifier`) USING HASH,
+  ADD KEY `subject_id` (`subject_id`),
+  ADD KEY `user_id` (`user_id`);
 
 --
 -- Indexes for table `enrolled`
 --
 ALTER TABLE `enrolled`
-  ADD KEY `user_id` (`user_id`),
-  ADD KEY `subject_id` (`subject_id`);
+  ADD UNIQUE KEY `identifier` (`identifier`) USING HASH,
+  ADD KEY `subject_id` (`subject_id`),
+  ADD KEY `custom_enrolled` (`user_id`);
 
 --
 -- Indexes for table `subjects`
