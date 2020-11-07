@@ -112,7 +112,7 @@
     function total_days($begin_date, $end_date = null) {
         $end_date == null ? $end_date = strtotime(date("Y-m-d")) : false;
         $end_date += 86400; /* to count current day as well */
-        return floor(($end_date - $begin_date) / 86400);
+        return $end_date < $begin_date ? 0 : floor(($end_date - $begin_date) / 86400);
     }
 
     function compute_offdates(array $offdays, $begin_date, $end_date = null) {
