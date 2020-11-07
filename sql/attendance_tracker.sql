@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 06, 2020 at 08:16 AM
+-- Generation Time: Nov 07, 2020 at 06:48 AM
 -- Server version: 10.4.14-MariaDB
 -- PHP Version: 7.4.10
 
@@ -24,19 +24,6 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `absent`
---
-
-CREATE TABLE `absent` (
-  `user_id` int(8) NOT NULL,
-  `subject_id` varchar(8) NOT NULL,
-  `date` date NOT NULL,
-  `note` varchar(128) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `access_tokens`
 --
 
@@ -52,27 +39,28 @@ CREATE TABLE `access_tokens` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `attendance`
+--
+
+CREATE TABLE `attendance` (
+  `type` enum('leave','holiday') NOT NULL DEFAULT 'leave',
+  `user_id` int(8) NOT NULL,
+  `subject_id` varchar(8) NOT NULL,
+  `date` date NOT NULL,
+  `note` varchar(128) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `enrolled`
 --
 
 CREATE TABLE `enrolled` (
   `user_id` int(8) NOT NULL,
   `subject_id` varchar(8) NOT NULL,
-  `weekly_off` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT '["saturday", "sunday"]',
-  `total_classes` int(4) NOT NULL DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `holidays`
---
-
-CREATE TABLE `holidays` (
-  `user_id` int(8) NOT NULL,
-  `subject_id` varchar(8) NOT NULL,
-  `date` date NOT NULL,
-  `note` varchar(128) NOT NULL
+  `start_date` date NOT NULL,
+  `weekly_off` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT '["saturday", "sunday"]'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -108,7 +96,22 @@ CREATE TABLE `users` (
 -- Indexes for table `access_tokens`
 --
 ALTER TABLE `access_tokens`
-  ADD UNIQUE KEY `token_id` (`token_id`);
+  ADD UNIQUE KEY `token_id` (`token_id`),
+  ADD KEY `user_id` (`user_id`);
+
+--
+-- Indexes for table `attendance`
+--
+ALTER TABLE `attendance`
+  ADD KEY `user_id` (`user_id`),
+  ADD KEY `subject_id` (`subject_id`);
+
+--
+-- Indexes for table `enrolled`
+--
+ALTER TABLE `enrolled`
+  ADD KEY `user_id` (`user_id`),
+  ADD KEY `subject_id` (`subject_id`);
 
 --
 -- Indexes for table `subjects`
@@ -132,6 +135,30 @@ ALTER TABLE `users`
 --
 ALTER TABLE `users`
   MODIFY `user_id` int(4) NOT NULL AUTO_INCREMENT;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `access_tokens`
+--
+ALTER TABLE `access_tokens`
+  ADD CONSTRAINT `access_tokens_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE ON UPDATE NO ACTION;
+
+--
+-- Constraints for table `attendance`
+--
+ALTER TABLE `attendance`
+  ADD CONSTRAINT `attendance_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  ADD CONSTRAINT `attendance_ibfk_2` FOREIGN KEY (`subject_id`) REFERENCES `subjects` (`subject_id`) ON DELETE CASCADE ON UPDATE NO ACTION;
+
+--
+-- Constraints for table `enrolled`
+--
+ALTER TABLE `enrolled`
+  ADD CONSTRAINT `enrolled_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  ADD CONSTRAINT `enrolled_ibfk_2` FOREIGN KEY (`subject_id`) REFERENCES `subjects` (`subject_id`) ON UPDATE NO ACTION;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
