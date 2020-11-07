@@ -12,7 +12,7 @@
         send_response(401, $error->custom("ERR_API_AUTH", "Access Token missing"));
     }
 
-    $data = array_merge($_GET, $_POST);
+    $data = $_POST;
 
     if ($data == null || empty($data)) {
         send_response(400, $error->data_error(2));
