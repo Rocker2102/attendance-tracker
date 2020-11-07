@@ -1,16 +1,11 @@
 <?php
-    require "../config/headers.php";
-    require "../config/operations.php";
-    require "../config/error_def.php";
+    require "local_config.php";
 
     $allowed_req_methods = ["POST", "GET"];
-    $error = new Error_Definitions;
 
     if (!check_request_method($allowed_req_methods)) {
         send_response(405, $error->data_error(1));
     }
-
-    require "../config/preflight.php";
 
     $access_token = get_access_token();
     if (!$access_token) {
@@ -33,7 +28,7 @@
         send_response(400, $error->form_error(1));
     }
 
-    Utility::escape_array($data);
+    Utility::escape_array($data, $valid_keys);
 
     require "../config/database.php";
     $database = new Database;
@@ -74,20 +69,33 @@
     }
     mysqli_free_result($result);
 
+    $start_date = date(DB_DATE_FORMAT, strtotime($subject_details["start_date"]));
+    $end_date = date(DB_DATE_FORMAT);
+    if (isset($data["start_date"]) && verify_date($data["start_date"])) {
+        $db_start = strtotime($subject_details["start_date"]);
+        $custom_start = strtotime($data["start_date"]);
+        $start_date = $custom_start < $db_start ? date(DB_DATE_FORMAT, $db_start) : date(DB_DATE_FORMAT, $custom_start);
+    }
+    if (isset($data["end_date"]) && verify_date($data["end_date"])) {
+        $curr_end = time();
+        $custom_end = strtotime($data["end_date"]);
+        $end_date = $custom_end > $curr_end ? date(DB_DATE_FORMAT, $curr_end) : date(DB_DATE_FORMAT, $custom_end);
+    }
+
     $holidays = [];
     $leaves = [];
     split_attendance($absent_details, $holidays, $leaves);
-    $total_days = total_days(strtotime($subject_details["start_date"]));
+    $total_days = total_days(strtotime($start_date), strtotime($end_date));
     $off_days = json_decode($subject_details["weekly_off"]);
-    $off_dates = compute_offdates($off_days, strtotime($subject_details["start_date"]));
+    $off_dates = compute_offdates($off_days, strtotime($start_date), strtotime($end_date));
 
     send_response(200, array(
         "error" => false,
         "message" => "Attendance calculated",
         "data" => array(
             "subject_id" => $subject_id,
-            "start_date" => $subject_details["start_date"],
-            "end_date" => date("Y-m-d"),
+            "start_date" => $start_date,
+            "end_date" => $end_date,
             "holidays" => $holidays,
             "leaves" => $leaves,
             "offdates" => $off_dates,
