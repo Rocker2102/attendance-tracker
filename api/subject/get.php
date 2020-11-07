@@ -1,16 +1,11 @@
 <?php
-    require "../config/headers.php";
-    require "../config/operations.php";
-    require "../config/error_def.php";
+    require "../config/local_config.php";
 
     $allowed_req_methods = ["POST", "GET"];
-    $error = new Error_Definitions;
 
     if (!check_request_method($allowed_req_methods)) {
         send_response(405, $error->data_error(1));
     }
-
-    require "../config/preflight.php";
 
     $data = array_merge($_GET, $_POST);
 
