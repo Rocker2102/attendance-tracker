@@ -3,7 +3,7 @@
     require "../config/operations.php";
     require "../config/error_def.php";
 
-    $allowed_req_methods = ["DELETE"];
+    $allowed_req_methods = ["POST"];
     $error = new Error_Definitions;
 
     if (!check_request_method($allowed_req_methods)) {
@@ -54,7 +54,6 @@
     $connect->query($query->get_query());
 
     if (mysqli_affected_rows($connect) == 1) {
-        @Authenticate::delete_all($connect, $user_id);
         send_response(202, array(
             "error" => false,
             "message" => "User Account deleted",
