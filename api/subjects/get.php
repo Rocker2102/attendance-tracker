@@ -1,5 +1,5 @@
 <?php
-    require "../config/local_config.php";
+    require "local_config.php";
 
     $allowed_req_methods = ["POST", "GET"];
 
