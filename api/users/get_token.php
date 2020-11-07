@@ -39,7 +39,7 @@
     $result = $connect->query($query->get_query() . " LIMIT 1");
 
     if (!$result || $result->num_rows == 0) {
-        send_response(404, array(
+        send_response(401, array(
             "error" => true,
             "message" => "Invalid Credentials!"
         ));
