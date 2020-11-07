@@ -57,18 +57,6 @@
     $subject_details = $result->fetch_assoc();
     mysqli_free_result($result);
 
-    $query->set_table("attendance");
-    $query->set_columns(["type", "date", "note"]);
-
-    $result = $connect->query($query->get_query());
-    $absent_details = [];
-    if ($result && $result->num_rows != 0) {
-        while ($row = $result->fetch_assoc()) {
-            array_push($absent_details, $row);
-        }
-    }
-    mysqli_free_result($result);
-
     $start_date = date(DB_DATE_FORMAT, strtotime($subject_details["start_date"]));
     $end_date = date(DB_DATE_FORMAT);
     if (isset($data["start_date"]) && verify_date($data["start_date"])) {
@@ -82,12 +70,26 @@
         $end_date = $custom_end > $curr_end ? date(DB_DATE_FORMAT, $curr_end) : date(DB_DATE_FORMAT, $custom_end);
     }
 
+    $query->set_table("attendance");
+    $query->set_columns(["type", "date", "note"]);
+    $query->set_conditions("date BETWEEN {$start_date} AND {$end_date}");
+
+    $result = $connect->query($query->get_query());
+    $absent_details = [];
+    if ($result && $result->num_rows != 0) {
+        while ($row = $result->fetch_assoc()) {
+            array_push($absent_details, $row);
+        }
+    }
+    mysqli_free_result($result);
+
     $holidays = [];
     $leaves = [];
-    split_attendance($absent_details, $holidays, $leaves);
-    $total_days = total_days(strtotime($start_date), strtotime($end_date));
     $off_days = json_decode($subject_details["weekly_off"]);
     $off_dates = compute_offdates($off_days, strtotime($start_date), strtotime($end_date));
+    $absent_details = remove_offdates_conflicts($absent_details, $off_dates);
+    split_attendance($absent_details, $holidays, $leaves);
+    $total_days = total_days(strtotime($start_date), strtotime($end_date));
 
     send_response(200, array(
         "error" => false,
@@ -107,29 +109,4 @@
             )
         )
     ));
-
-    function split_attendance(array $data, array &$h, array &$l) {
-        $max_len = count($data);
-        for ($i = 0; $i < $max_len; $i++) {
-            $type = $data[$i]["type"];
-            unset($data[$i]["type"]);
-            $type == "leave" ? array_push($l, $data[$i]) : array_push($h, $data[$i]);
-        }
-    }
-
-    function total_days($begin_date, $end_date = null) {
-        $end_date == null ? $end_date = strtotime(date("Y-m-d")) : false;
-        $end_date += 86400; /* to count current day as well */
-        return $end_date < $begin_date ? 0 : floor(($end_date - $begin_date) / 86400);
-    }
-
-    function compute_offdates(array $offdays, $begin_date, $end_date = null) {
-        $end_date == null ? $end_date = strtotime(date("Y-m-d")) : false;
-        $offdates = [];
-        while ($begin_date <= $end_date) {
-            in_array(strtolower(date("l", $begin_date)), $offdays) ? array_push($offdates, date("Y-m-d", $begin_date)) : false;
-            $begin_date += 86400;
-        }
-        return $offdates;
-    }
 ?>
