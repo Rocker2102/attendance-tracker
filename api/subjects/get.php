@@ -10,7 +10,7 @@
     $data = array_merge($_GET, $_POST);
 
     $required_keys = [];
-    $valid_keys = ["subject_id", "subject_name"];
+    $valid_keys = ["subject_id", "name"];
 
     $validator = new Validate_Data;
     $data = $validator->verify($data, $required_keys, $valid_keys);
@@ -23,7 +23,7 @@
 
     $query = "SELECT * FROM subjects WHERE 1 ";
     isset($data["subject_id"]) ? $query .= " AND subject_id LIKE '%" . $data["subject_id"] . "%' " : false;
-    isset($data["subject_name"]) ? $query .= " AND name LIKE '%" . $data["subject_name"] . "%' " : false;
+    isset($data["name"]) ? $query .= " AND name LIKE '%" . $data["name"] . "%' " : false;
 
     $result = $connect->query($query);
 
