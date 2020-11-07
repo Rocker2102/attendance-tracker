@@ -5,7 +5,6 @@
     src: url(../fonts/MaterialIcons-Regular.ttf) format("truetype");
 }
 
-/* icons --start */
 .material-icons {
     font-family: "Material Icons";
     font-weight: normal;
@@ -26,11 +25,60 @@
             font-feature-settings: "liga";
 }
 
+body {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+    background-image: url(../img/bg.jpg);
+    background-attachment: fixed;
+    background-position: center;
+}
+
+main {
+    flex: 1 0 auto;
+}
+
+a:hover {
+    color: inherit !important;
+    text-decoration: none !important;
+}
+
+.brand-logo > i {
+    font-size: 1.2em !important;
+}
+
+.sidenav-overlay {
+    z-index: 1;
+}
+
+.btn i {
+    line-height: 1 !important;
+}
+
 .left-align {
-    margin-right: 6px;
+    margin: 0 4px 2px 0;
 }
 
 .right-align {
-    margin-left: 6px;
+    margin: 0 0 2px 4px;
 }
-/* icons --end */
+
+.ctm-container {
+    margin: 0 auto;
+    width: 80%;
+}
+
+.modal.bottom-sheet {
+    height: fit-content;
+}
+
+.rotate {
+    animation: rotate 1s linear infinite;
+}
+
+@keyframes rotate {
+    100% {
+        -webkit-transform: rotate(360deg);
+        transform: rotate(360deg);
+    }
+}
