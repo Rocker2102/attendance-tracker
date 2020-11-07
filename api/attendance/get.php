@@ -56,7 +56,7 @@
     $result = $connect->query($query->get_query());
     if (!$result || $result->num_rows == 0) {
         send_response(400, $error->db_error(3), array(
-            "info" => "Looks like you are not yet enrolled in the subject"
+            "info" => "You are not yet enrolled in the subject"
         ));
     }
     $subject_details = $result->fetch_assoc();
