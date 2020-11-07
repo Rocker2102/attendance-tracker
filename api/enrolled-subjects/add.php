@@ -104,7 +104,7 @@
     if (mysqli_affected_rows($connect) == 1) {
         send_response(201, array(
             "error" => false,
-            "message" => "Successfully enrolled in subject ",
+            "message" => "Successfully enrolled in subject",
             "data" => $data
         ));
     } else {
