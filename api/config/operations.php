@@ -413,19 +413,6 @@
         }
     }
 
-    function get_input_data($input_stream, $post_data) {
-        if (!empty($post_data)) {
-            return $post_data;
-        }
-        $arr = json_decode($input_stream, true);
-        if ($arr != null) {
-            return $arr;
-        }
-        $arr = [];
-        parse_str($input_stream, $arr);
-        return $arr;
-    }
-
     function is_username_available($connect, $username) {
         $query = "SELECT user_id FROM users WHERE username = '$username'";
         $result = $connect->query($query);
