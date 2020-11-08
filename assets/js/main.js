@@ -40,12 +40,8 @@ $(document).ready(function() {
     $(".sidenav").sidenav();
     $(".modal").modal();
     M.updateTextFields();
-});
 
-$.ajaxSetup({
-    headers: {
-        "X-Access-Token": getAccessToken()
-    }
+    uiInit();
 });
 
 $(".modal-close").click(function() {
@@ -78,34 +74,37 @@ function getCookie(name) {
 }
 
 function getAccessToken() {
+    let key = "accessToken";
     let ls = new localStorage();
-    if (ls.getState()) {
-        return ls.getKey("accessToken");
-    } else if (navigator.cookieEnabled) {
-        return getCookie("accessToken");
-    } else {
+    try {
+        if (ls.getState()) {
+            return JSON.parse(ls.getKey(key));
+        } else if (navigator.cookieEnabled) {
+            return JSON.parse(getCookie(key));
+        } else {
+            return false;
+        }
+    } catch (error) {
+        console.error(`Failed to obtain access token. ${error}`);
         return false;
     }
 }
 
 function setAccessToken(token) {
+    let key = "accessToken";
     let ls = new localStorage();
-    if (ls.getState()) {
-        ls.setKey("accessToken", token);
-        return true;
-    } else if (navigator.cookieEnabled) {
-        setCookie("accessToken", token, 1);
-        return true;
-    } else {
-        return false;
-    }
-}
-
-function parseJsonResponse(response) {
     try {
-        response = JSON.parse(response);
-        return response;
-    } catch (e) {
+        if (ls.getState()) {
+            ls.setKey(key, JSON.stringify(token));
+            return true;
+        } else if (navigator.cookieEnabled) {
+            setCookie(key, JSON.stringify(token), 2);
+            return true;
+        } else {
+            return false;
+        }
+    } catch (error) {
+        console.error(`Failed to store access token. ${error}`);
         return false;
     }
 }
@@ -129,9 +128,9 @@ function modButton(button, html, disabledState = true, removeClasses = "", addCl
         .addClass(addClasses).html(html);
 }
 
-function getSpinner(icon = "sync") {
+function getSpinner(icon = "sync", addClasses = "") {
     let iconsArr = ["refresh", "rotate_right", "motion_photos_on"];
-    return getMaterialIcon(icon, "rotate");
+    return getMaterialIcon(icon, "rotate " + addClasses);
 }
 
 function getMaterialIcon(icon, addClasses = "", DOMElement = false) {
@@ -142,4 +141,13 @@ function getMaterialIcon(icon, addClasses = "", DOMElement = false) {
 function showToast(htmlData, classData = "blue white-text", icon = "info") {
     let toastIcon = getMaterialIcon(icon, "left");
     return M.toast({html: toastIcon + htmlData, classes: classData});
+}
+
+function responseParseError(error = null) {
+    showToast("Parse error", "red", "rule");
+    error != null ? console.warn("Parse error: " + error) : false;
+}
+
+function uiInit() {
+    /* TODO: launch init function to detect stored token & fetch user info (show status in login modal) */
 }
