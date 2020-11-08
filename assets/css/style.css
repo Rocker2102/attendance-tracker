@@ -76,6 +76,10 @@ a:hover {
     animation: rotate 1s linear infinite;
 }
 
+#token-status {
+    text-transform: capitalize;
+}
+
 @keyframes rotate {
     100% {
         -webkit-transform: rotate(360deg);
