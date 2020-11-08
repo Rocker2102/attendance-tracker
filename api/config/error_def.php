@@ -2,9 +2,9 @@
     class Error_Definitions {
         private function format(array $err) {
             return array(
-                "error"=> true,
-                "code"=> $err[0],
-                "message"=> $err[1]
+                "error" => true,
+                "code" => $err[0],
+                "message" => $err[1]
             );
         }
 
