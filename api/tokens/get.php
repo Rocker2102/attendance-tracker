@@ -67,6 +67,10 @@
             "data" => array(
                 "token" => implode(".", $token),
                 "valid_till" => $expires
+            ),
+            "redirect" => array(
+                "url" => HOME_URL,
+                "after" => 1500
             )
         ));
     } else {
