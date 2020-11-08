@@ -110,12 +110,12 @@ function setAccessToken(token) {
 }
 
 function checkResponse(response) {
-    return;
     if (typeof response.reauth != "undefined") {
-        /* TODO pop reauth modal */
+        setAccessToken("");
+        $("#login-modal").modal("open");
     }
     if (typeof response.redirect != "undefined") {
-        location.href = response.redirect;
+        setTimeout(() => { location.href = response.redirect.url }, response.redirect.after);
     }
 }
 
@@ -149,5 +149,75 @@ function responseParseError(error = null) {
 }
 
 function uiInit() {
-    /* TODO: launch init function to detect stored token & fetch user info (show status in login modal) */
+    let accessToken = getAccessToken();
+    if (!accessToken || accessToken == "" || accessToken == null) {
+        setTokenStatus("unavailable");
+    } else {
+        let validTill = new Date(accessToken.valid_till);
+        let current = new Date();
+        if (current < validTill) {
+            setTokenStatus("valid");
+        }
+        updateAccountData(requestAccountData(accessToken.token));
+    }
+}
+
+function updateAccountData(requestPromise) {
+    requestPromise.then((request) => {
+        setTokenStatus("invalid");
+        request.json().then((response) => {
+            checkResponse(response);
+            if (!response.error) {
+                $("[account-name]").html(response.data.name);
+                $("[account-username]").html(response.data.username);
+                setTokenStatus("valid");
+                showToast(response.message, "green", "done");
+            } else {
+                showToast(response.message, "red", "close")
+            }
+        }).catch((error) => {
+            request.status == 404 ? showToast("Request Error!", "red", "cancel")
+                : responseParseError(error);
+        });
+    }).catch(() => { showToast("Server Error!", "red", "wifi_off") });
+}
+
+async function requestAccountData(token) {
+    setTokenStatus("verifying");
+    return await fetch(getApiUrl("users/get.php"), { headers: { "X-Access-Token": token } });
+}
+
+function setTokenStatus(newStatus) {
+    newStatus = newStatus.toLowerCase();
+    let element = $("#token-status");
+    let status = {
+        "unavailable": {
+            "icon": "info",
+            "iconClass": "right-align",
+            "class": "white"
+        },
+        "verifying": {
+            "icon": "rotate_right",
+            "iconClass": "right-align rotate",
+            "class": "yellow"
+        },
+        "valid": {
+            "icon": "done",
+            "iconClass": "right-align",
+            "class": "green"
+        },
+        "invalid": {
+            "icon": "close",
+            "iconClass": "right-align",
+            "class": "red"
+        }
+    }
+
+    function applyStatus(obj) {
+        let remove = "white yellow green red";
+        element.removeClass(remove).addClass(obj.class)
+            .html(newStatus + getMaterialIcon(obj.icon, obj.iconClass));
+    }
+
+    typeof status[newStatus] != "undefined" ? applyStatus(status[newStatus]) : console.log("Invalid parameters!");
 }

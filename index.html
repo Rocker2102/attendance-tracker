@@ -19,7 +19,8 @@
                 <div class="nav-wrapper px-4">
                     <a class="brand-logo truncate"><i class="material-icons">date_range</i></a>
                     <ul class="right hide-on-med-and-down">
-                        <li class="waves-effect waves-light"><a href="#"><i class="material-icons left">home</i>Home</a></li>
+                        <li class="waves-effect waves-light"><a class="waves-effect" href="javascript:void(0)"
+                                id="rebuild-localdata"><i class="material-icons">refresh</i></a></li>
                         <li><a href="javascript:void(0)" class="sidenav-trigger show-on-large" data-target="menu-sidenav"><i
                                     class="material-icons left">menu</i>Menu</a></li>
                     </ul>
@@ -32,15 +33,16 @@
                         <div class="background">
                             <img src="assets/img/panel-bg.jpg">
                         </div>
-                        <a href="javascript:void(0)"><span class="white-text name">Name</span></a>
-                        <a href="javascript:void(0)"><span class="white-text email">Username</span></a>
+                        <a href="javascript:void(0)"><span class="white-text name" account-name>Name</span></a>
+                        <a href="javascript:void(0)"><span class="white-text email" account-username>Username</span></a>
                     </div>
                 </li>
                 <li><a class="waves-effect" href="#"><i class="material-icons left">home</i>Home</a></li>
                 <li>
                     <div class="divider"></div>
                 </li>
-                <li><a class="waves-effect" href="#"><i class="material-icons left">exit_to_app</i>Login</a></li>
+                <li><a class="waves-effect modal-trigger" href="#login-modal"><i
+                            class="material-icons left">exit_to_app</i>Login</a></li>
                 <li><a class="waves-effect" href="#"><i class="material-icons left">person_add</i>Signup</a></li>
             </ul>
         </header>
@@ -70,17 +72,19 @@
             <div class="modal-content">
                 <h4>Authorization Required</h4>
                 <p>Enter your username & password below to obtain a temporary access token.</p>
+                <p><strong>Token: </strong>&nbsp;<span class="py-1 px-2 rounded" id="token-status">
+                        waiting<i class="material-icons right-align rotate">sync</i></span></p>
 
                 <form id="login-form" method="POST">
                     <div class="form-row mb-3">
                         <div class="input-field col-md-6">
                             <i class="material-icons prefix">account_circle</i>
-                            <input id="username" type="text" class="validate" name="username">
+                            <input id="username" type="text" name="username">
                             <label for="username">Username</label>
                         </div>
                         <div class="input-field col-md-6">
                             <i class="material-icons prefix">security</i>
-                            <input id="password" type="password" class="validate" name="password">
+                            <input id="password" type="password" name="password">
                             <label for="password">Password</label>
                         </div>
                     </div>
