@@ -1,7 +1,7 @@
 <?php
     require "local_config.php";
 
-    $allowed_req_methods = ["POST"];
+    $allowed_req_methods = ["GET", "POST"];
 
     if (!check_request_method($allowed_req_methods)) {
         send_response(405, $error->data_error(1));
