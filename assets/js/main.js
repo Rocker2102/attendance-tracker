@@ -48,6 +48,34 @@ $(".modal-close").click(function() {
     $(this).closest(".modal").modal("close");
 });
 
+function parseUrlQuery(name = null, url = location.href) {
+    let parsedUrl = {};
+    let queryPart = url.split("?");
+
+    if (queryPart.length <= 1) {
+        return null;
+    }
+    queryPart = queryPart[1];
+    let params = queryPart.split("&");
+
+    for (let i = 0; i < params.length; i++) {
+        try {
+            params[i] = params[i].split("=");
+            let paramName = decodeURIComponent(params[i][0]);
+            let paramVal = decodeURIComponent(params[i][1]);
+            if (name == paramName) {
+                return paramVal;
+            }
+            name == null ? parsedUrl[paramName] = paramVal : false;
+        } catch (e) {
+            console.log("ParseError: " + params[i]);
+            continue;
+        }
+    }
+
+    return name == null ? parsedUrl : null;
+}
+
 function setCookie(name, value, expiry = 0, path = "/") {
     let date = new Date();
     if (expiry < 0) {
@@ -155,6 +183,12 @@ function isUndefined(data) {
 function uiInit() {
     let ls = new localStorage();
     let accessToken = getAccessToken();
+    let queryModal = parseUrlQuery("modal");
+
+    try {
+        $("#" + queryModal).modal("open");
+    } catch (error) {}
+
     if (!accessToken || accessToken == "" || accessToken == null) {
         setTokenStatus("unavailable");
     } else {
@@ -238,4 +272,9 @@ function setTokenStatus(newStatus) {
     }
 
     typeof status[newStatus] != "undefined" ? applyStatus(status[newStatus]) : console.log("Invalid parameters!");
+}
+
+function displayInfoMessages(element, messages, classes = "") {
+    let remove = "text-danger text-dark text-light text-success text-warning"
+    $(element).removeClass(remove).addClass(classes).html(Array.isArray(messages) ? messages.join("<br>") : messages);
 }

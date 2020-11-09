@@ -1,27 +1,27 @@
 "use strict";
 
-$("#login-form").on("submit", function(e) {
+$("#register-form").on("submit", function(e) {
     e.preventDefault();
-    let credentials = new FormData(this);
+    let userdata = new FormData(this);
     let submitBtn = $(this).find("button[type='submit']");
     let defaultText = submitBtn.html();
 
     function reset() {
+        displayInfoMessages("#info-area", "");
         modButton(submitBtn, defaultText, false);
     }
 
-    modButton(submitBtn, "Authenticating " + getSpinner("sync", "right-align"), true);
+    modButton(submitBtn, "Registering " + getSpinner("sync", "right-align"), true);
 
-    requestAccessToken(credentials).then(function(request) {
+    submitUserData(userdata).then(function(request) {
         reset();
         request.json().then((response) => {
             checkResponse(response);
             if (!response.error) {
-                setAccessToken(response.data) ? showToast(response.message, "green", "https")
-                    : showToast("LocalStorage/Cookie error!", "red", "error_outline");
-                setTokenStatus("valid");
-                updateAccountData(requestAccountData(response.data.token));
+                showToast(response.message, "green", "person_add");
+                setTimeout(() => { location.href = "index.php?modal=login-modal" }, 3000);
             } else {
+                displayInfoMessages("#info-area", response.info, "text-warning");
                 showToast(response.message, "red", "close")
             }
         }).catch((error) => {
@@ -34,9 +34,9 @@ $("#login-form").on("submit", function(e) {
     });
 });
 
-async function requestAccessToken(credentials) {
-    return await fetch(getApiUrl("tokens/get.php"), {
+async function submitUserData(userdata) {
+    return await fetch(getApiUrl("users/add.php"), {
         method: "POST",
-        body: credentials
+        body: userdata
     });
 }

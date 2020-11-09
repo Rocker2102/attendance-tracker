@@ -1,0 +1,34 @@
+<header class="navbar-fixed hoverable">
+    <nav class="black darken-4">
+        <div class="nav-wrapper px-4">
+            <a class="brand-logo truncate"><i class="material-icons">date_range</i></a>
+            <ul class="right hide-on-med-and-down">
+                <li class="waves-effect waves-light"><a class="waves-effect" href="javascript:void(0)"
+                        id="rebuild-localdata"><i class="material-icons">refresh</i></a></li>
+                <li><a href="javascript:void(0)" class="sidenav-trigger show-on-large" data-target="menu-sidenav"><i
+                            class="material-icons left">menu</i>Menu</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <ul id="menu-sidenav" class="sidenav">
+        <li>
+            <div class="user-view">
+                <div class="background">
+                    <img src="assets/img/panel-bg.jpg">
+                </div>
+                <a href="javascript:void(0)"><span class="white-text name" account-name>-</span></a>
+                <a href="javascript:void(0)"><span class="white-text email" account-username>-</span></a>
+            </div>
+        </li>
+        <li><a class="waves-effect" href="#"><i class="material-icons left">home</i>Home</a></li>
+        <li>
+            <div class="divider"></div>
+        </li>
+        <li><a class="waves-effect modal-trigger" href="#login-modal"><i
+                    class="material-icons left">exit_to_app</i>Login</a></li>
+        <li><a class="waves-effect" href="register.php"><i class="material-icons left">person_add</i>Signup</a></li>
+        <li><a class="waves-effect d-none" href="javascript:void(0)" id="logout-btn"><i
+                    class="material-icons left">power_settings_new</i>Logout</a></li>
+    </ul>
+</header>

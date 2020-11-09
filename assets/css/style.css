@@ -55,11 +55,11 @@ a:hover {
     line-height: 1 !important;
 }
 
-.left-align {
+i.left-align {
     margin: 0 4px 2px 0;
 }
 
-.right-align {
+i.right-align {
     margin: 0 0 2px 4px;
 }
 
