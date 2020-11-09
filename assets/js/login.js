@@ -17,9 +17,10 @@ $("#login-form").on("submit", function(e) {
         request.json().then((response) => {
             checkResponse(response);
             if (!response.error) {
-                setTokenStatus("valid");
                 setAccessToken(response.data) ? showToast(response.message, "green", "https")
                     : showToast("LocalStorage/Cookie error!", "red", "error_outline");
+                setTokenStatus("valid");
+                updateAccountData(requestAccountData(response.data.token));
             } else {
                 showToast(response.message, "red", "close")
             }

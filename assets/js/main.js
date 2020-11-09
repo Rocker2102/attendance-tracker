@@ -148,7 +148,12 @@ function responseParseError(error = null) {
     error != null ? console.warn("Parse error: " + error) : false;
 }
 
+function isUndefined(data) {
+    return typeof data == "undefined";
+}
+
 function uiInit() {
+    let ls = new localStorage();
     let accessToken = getAccessToken();
     if (!accessToken || accessToken == "" || accessToken == null) {
         setTokenStatus("unavailable");
@@ -157,19 +162,32 @@ function uiInit() {
         let current = new Date();
         if (current < validTill) {
             setTokenStatus("valid");
+            displayAccountData(JSON.parse(ls.getKey("userdata")));
+        } else {
+            updateAccountData(requestAccountData(accessToken.token));
         }
-        updateAccountData(requestAccountData(accessToken.token));
+    }
+}
+
+function displayAccountData(data = {}) {
+    try {
+        $("[account-name]").html(data["name"]);
+        $("[account-username]").html(data["username"]);
+    } catch (error) {
+        let tmp = "unavailable";
+        displayAccountData({"name": tmp, "username": tmp});
     }
 }
 
 function updateAccountData(requestPromise) {
+    let ls = new localStorage();
     requestPromise.then((request) => {
         setTokenStatus("invalid");
         request.json().then((response) => {
             checkResponse(response);
             if (!response.error) {
-                $("[account-name]").html(response.data.name);
-                $("[account-username]").html(response.data.username);
+                displayAccountData(response.data);
+                ls.setKey("userdata", JSON.stringify(response.data));
                 setTokenStatus("valid");
                 showToast(response.message, "green", "done");
             } else {

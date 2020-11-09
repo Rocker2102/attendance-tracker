@@ -76,7 +76,7 @@ a:hover {
     animation: rotate 1s linear infinite;
 }
 
-#token-status {
+#token-status, [account-name] {
     text-transform: capitalize;
 }
 
