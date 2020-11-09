@@ -39,6 +39,7 @@ class localStorage {
 $(document).ready(function() {
     $(".sidenav").sidenav();
     $(".modal").modal();
+    $(".tooltipped").tooltip();
     M.updateTextFields();
 
     uiInit();
