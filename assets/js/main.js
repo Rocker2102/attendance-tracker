@@ -197,11 +197,42 @@ function uiInit() {
         let current = new Date();
         if (current < validTill) {
             setTokenStatus("valid");
+            initTokenTimer(new Date(accessToken.valid_till));
             displayAccountData(JSON.parse(ls.getKey("userdata")));
         } else {
             updateAccountData(requestAccountData(accessToken.token));
         }
     }
+}
+
+function initTokenTimer(validTill) {
+    function formatNumber(num) {
+        return num < 10 ? "0" + num : num;
+    }
+
+    let timer = setInterval(function() {
+        try {
+            let element = $("#token-timer");
+            const str = "<i class='material-icons left-align'>av_timer</i>";
+            let current = new Date();
+            let diff = Math.floor((validTill - current) / 1000);
+            if (isNaN(diff) || diff <= 0) {
+                element.html(str + "00:00:00");
+                clearInterval(timer);
+                return;
+            }
+            let hours = Math.floor((diff) / 3600);
+            let minutes = Math.floor((diff - hours * 3600) / 60);
+            let seconds = Math.floor(diff - hours * 3600 - minutes * 60);
+            let newStr = str + formatNumber(hours) + ":" + formatNumber(minutes) + ":"
+                + formatNumber(seconds);
+            element.html(newStr);
+        } catch (error) {
+            console.warn("Failed to update timer!", error);
+            clearInterval(timer);
+            return;
+        }
+    }, 1000);
 }
 
 function displayAccountData(data = {}) {

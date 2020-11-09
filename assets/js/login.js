@@ -21,6 +21,7 @@ $("#login-form").on("submit", function(e) {
                     : showToast("LocalStorage/Cookie error!", "red", "error_outline");
                 setTokenStatus("valid");
                 updateAccountData(requestAccountData(response.data.token));
+                initTokenTimer(new Date(response.data.valid_till));
                 $("#logout-btn").removeClass("d-none");
                 $("#login-modal").modal("close");
             } else {
