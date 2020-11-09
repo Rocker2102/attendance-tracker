@@ -21,6 +21,8 @@ $("#login-form").on("submit", function(e) {
                     : showToast("LocalStorage/Cookie error!", "red", "error_outline");
                 setTokenStatus("valid");
                 updateAccountData(requestAccountData(response.data.token));
+                $("#logout-btn").removeClass("d-none");
+                $("#login-modal").modal("close");
             } else {
                 showToast(response.message, "red", "close")
             }
@@ -39,4 +41,16 @@ async function requestAccessToken(credentials) {
         method: "POST",
         body: credentials
     });
+}
+
+$("#logout-btn").click(function() {
+    $(this).html(getSpinner("motion_photos_on", "left") + "Logging out...");
+    removeAccessToken(getAccessToken().token).then(() => {
+        setAccessToken("");
+        location.reload();
+    });
+});
+
+async function removeAccessToken(token) {
+    return await fetch(getApiUrl("tokens/remove.php"), { headers: { "X-Access-Token": token } });
 }

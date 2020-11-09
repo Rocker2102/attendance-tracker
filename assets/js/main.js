@@ -192,6 +192,7 @@ function uiInit() {
     if (!accessToken || accessToken == "" || accessToken == null) {
         setTokenStatus("unavailable");
     } else {
+        $("#logout-btn").removeClass("d-none");
         let validTill = new Date(accessToken.valid_till);
         let current = new Date();
         if (current < validTill) {
