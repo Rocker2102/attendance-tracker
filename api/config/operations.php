@@ -3,6 +3,7 @@
     define("TOKEN_VALIDITY", 3600);
     define("HOME_URL", "http://localhost/development/attendance-tracker/");
     define("MIN_START_DATE", "2020-01-01");
+    const ENABLE_REAUTH = array("reauth" => true);
     date_default_timezone_set("Asia/Kolkata");
 
     class Utility {

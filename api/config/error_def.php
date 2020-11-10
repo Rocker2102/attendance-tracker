@@ -1,15 +1,24 @@
 <?php
     class Error_Definitions {
-        private function format(array $err) {
-            return array(
+        private function format(array $err, array $merge = []) {
+            return array_merge(array(
                 "error" => true,
                 "code" => $err[0],
                 "message" => $err[1]
-            );
+            ), $merge);
         }
 
         public static function custom($code, $msg) {
             return self::format([$code, $msg]);
+        }
+
+        public static function api_error($e = 1, $custom = "") {
+            switch ($e) {
+                case 0: return self::format(["ERR_API_CTM", $custom], ENABLE_REAUTH); break;
+                case 1: return self::format(["ERR_API_AUTH", "Access Token missing!"], ENABLE_REAUTH); break;
+                case 2: return self::format(["ERR_API_TOKEN", "Token invalid or expired!"], ENABLE_REAUTH); break;
+                default: return self::format(["ERR_API_DEF", "API Error!"], ENABLE_REAUTH);
+            }
         }
 
         public static function data_error($e = 1, $custom = "") {

@@ -9,7 +9,7 @@
 
     $access_token = get_access_token();
     if (!$access_token) {
-        send_response(401, $error->custom("ERR_API_AUTH", "Access Token missing"));
+        send_response(401, $error->api_error(1));
     }
 
     require "../config/database.php";
@@ -17,7 +17,7 @@
     $connect = $database->get_connect_var();
 
     if (!Authenticate::verify_access_token($connect, $access_token)) {
-        send_response(401, $error->custom("ERR_API_TOKEN", "Token invalid or expired!"));
+        send_response(401, $error->api_error(2));
     }
 
     if (Authenticate::delete_access_token($connect, $access_token)) {

@@ -9,7 +9,7 @@
 
     $access_token = get_access_token();
     if (!$access_token) {
-        send_response(401, $error->custom("ERR_API_AUTH", "Access Token missing"));
+        send_response(401, $error->api_error(1));
     }
 
     $data = $_POST;
@@ -25,7 +25,7 @@
     $data = $validator->verify($data, $required_keys, $valid_keys);
 
     if (!$data) {
-        send_response(400, $error->form_error(1));
+        send_response(400, $error->api_error(2));
     }
 
     $validate_type = [
