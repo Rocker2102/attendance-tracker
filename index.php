@@ -35,6 +35,41 @@
                     </div>
                 </div>
             </div>
+
+            <div class="row">
+                <div class="col-md-8 d-flex align-self-stretch">
+                    <div class="card card-body grey darken-3 text-white z-depth-5 ctm-card-bg">
+                        <h3><i class="material-icons left-align">label_important</i> Next step</h3>
+                        <span class="card-title">Continue by enrolling in a subject, either from a list of predefined subjects or
+                            add your own subject.</span>
+                        <div class="row mx-1">
+                            <a class="btn btn-primary waves-effect mx-1"><i class="material-icons left-align">category</i>Enroll</a>
+                            <a class="btn btn-primary waves-effect mx-1"><i class="material-icons left-align">add</i>Add new
+                                subject</a>
+                        </div>
+                        <h3><i class="material-icons left-align">face</i> Your Account</h3>
+                        <span class="card-title">Update your information by following the link below</span>
+                        <div class="row mx-1">
+                            <a class="btn btn-primary waves-effect mx-1"><i class="material-icons left-align">person</i>Go to
+                                profile</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card card-body blue darken-4 text-white z-depth-5 hoverable">
+                        <h3><i class="material-icons left-align">calendar_today</i> Calender</h3>
+                        <span class="card-title">Open calender to mark attendance</span>
+                        <a class="btn btn-primary btn-block waves-effect" target="_blank" href="#"><i
+                                class="material-icons left-align">open_in_new</i>Open</a>
+                    </div>
+                    <div class="card card-body teal darken-4 text-white z-depth-5">
+                        <h3><i class="material-icons left-align">analytics</i> Attendance</h3>
+                        <span class="card-title">Check your subject wise attendance</span>
+                        <a class="btn btn-primary btn-block waves-effect" target="_blank" href="#"><i
+                                class="material-icons left-align">open_in_new</i>View</a>
+                    </div>
+                </div>
+            </div>
         </main>
 
         <?php include "includes/login-modal.html"; ?>

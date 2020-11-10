@@ -45,8 +45,10 @@ async function requestAccessToken(credentials) {
 }
 
 $("#logout-btn").click(function() {
+    let ls = new localStorage;
     $(this).html(getSpinner("motion_photos_on", "left") + "Logging out...");
     removeAccessToken(getAccessToken().token).then(() => {
+        ls.removeKey("userdata");
         setAccessToken("");
         location.reload();
     });

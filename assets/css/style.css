@@ -70,6 +70,7 @@ i.right-align {
 
 .modal.bottom-sheet {
     height: fit-content;
+    max-height: fit-content;
 }
 
 .rotate {
@@ -78,6 +79,14 @@ i.right-align {
 
 #token-status, [account-name] {
     text-transform: capitalize;
+}
+
+.ctm-card-bg {
+    background-image: url(../img/card-bg.jpg);
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
 }
 
 @keyframes rotate {
