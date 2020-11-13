@@ -28,7 +28,7 @@
     }
 
     $data["subject_id"] = strtoupper($data["subject_id"]);
-    Utility::escape_array($data, ["weekly_off"]);
+    Utility::escape_array($data);
 
     require "../config/database.php";
     $database = new Database;

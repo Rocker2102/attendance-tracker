@@ -22,13 +22,11 @@
 
     $user_id = Authenticate::get_user_id($access_token);
 
-    $query = new Build_Query("enrolled");
-    $query->set_columns(["subject_id", "start_date", "weekly_off"]);
-    $query->set_conditions([
-        ["user_id", $user_id]
-    ]);
+    $query = "SELECT s.subject_id as code, start_date, weekly_off, name
+        FROM `enrolled` e, `subjects` s WHERE
+        user_id = '$user_id' AND s.subject_id = e.subject_id";
 
-    $result = $connect->query($query->get_query());
+    $result = $connect->query($query);
     $enrolled = [];
 
     if ($result) {
