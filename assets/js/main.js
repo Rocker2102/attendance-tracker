@@ -138,6 +138,19 @@ function setAccessToken(token) {
     }
 }
 
+function createElement(tag, options = {}, html = "") {
+    let e = document.createElement(tag);
+    
+    for (const attr in options) {
+        $(e).attr(attr, options[attr]);
+    }
+
+    if (html != "") {
+        $(e).html(html);
+    }
+    return e;
+}
+
 function checkResponse(response) {
     if (typeof response.reauth != "undefined") {
         setAccessToken("");
@@ -258,7 +271,7 @@ function updateAccountData(requestPromise) {
                 setTokenStatus("valid");
                 showToast(response.message, "green", "done");
             } else {
-                showToast(response.message, "red", "close")
+                showToast(response.message, "red", "close");
             }
         }).catch((error) => {
             request.status == 404 ? showToast("Request Error!", "red", "cancel")

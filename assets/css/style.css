@@ -89,6 +89,19 @@ i.right-align {
     background-size: cover;
 }
 
+ul.ctm-list-grey > span > li.collection-item {
+    background-color: #616161;
+}
+
+#enroll-modal {
+    width: fit-content;
+    height: fit-content;
+}
+
+li.collection-item[disabled="disabled"] a.secondary-content {
+    cursor: not-allowed;
+}
+
 @keyframes rotate {
     100% {
         -webkit-transform: rotate(360deg);

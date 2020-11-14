@@ -1,0 +1,35 @@
+<div id="enroll-modal" class="modal">
+    <div class="modal-content">
+        <h4>Confirm</h4>
+
+        <form id="enroll-form" method="POST">
+            <div class="form-row mb-3">
+                <div class="input-field col-md-4">
+                    <i class="material-icons prefix">code</i>
+                    <input id="subject_id" type="text" name="subject_id" required>
+                    <label for="subject_id">Subject Code</label>
+                </div>
+                <div class="input-field col-md-8">
+                    <i class="material-icons prefix">description</i>
+                    <input id="subject_name" type="text" disabled>
+                    <label for="subject_name">Name</label>
+                </div>
+            </div>
+            <div class="form-row mb-3">
+                <div class="input-field col-md-12">
+                    <i class="material-icons prefix">event</i>
+                    <input id="start_date" type="date" name="start_date" required>
+                    <label for="start_date">Start Date</label>
+                </div>
+            </div>
+            <div class="form-row mb-3">
+                <div class="col-12 right-align">
+                    <button type="button" class="btn btn-danger waves-effect modal-close"><i
+                            class="material-icons left-align">close</i>Cancel</button>
+                    <button type="submit" class="btn btn-success waves-effect">Enroll<i
+                            class="material-icons right-align">keyboard_arrow_right</i></button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
