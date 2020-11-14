@@ -74,17 +74,18 @@ $("#all-subjects").on("click", "a", function() {
 });
 
 $("#enrolled").on("click", "a", function() {
-    if (!confirm("Sure to disenroll?")) {
-        return;
-    }
-
     let item = $(this).closest("li.collection-item");
-    let subjectData = new FormData;
-    subjectData.append("subject_id", item.attr("ctm-code"));
 
     if (item.attr("disabled") == "disabled") {
         return;
     }
+
+    if (!confirm("Sure to disenroll?")) {
+        return;
+    }
+
+    let subjectData = new FormData;
+    subjectData.append("subject_id", item.attr("ctm-code"));
 
     item.attr("disabled", "disabled");
 
@@ -147,7 +148,6 @@ $("#enroll-form").on("submit", function(e) {
             } else {
                 showToast(response.message, "red", "close");
                 typeof response.info != "undefined" ? displayInfoMessages("#info-area", response.info, "text-danger") : false;
-                console.log(typeof response.info);
             }
         }).catch((error) => {
             request.status == 404 ? showToast("Request Error!", "red", "cancel")
