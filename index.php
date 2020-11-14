@@ -43,8 +43,10 @@
                         <span class="card-title">Continue by enrolling in a subject, either from a list of predefined subjects or
                             add your own subject.</span>
                         <div class="row mx-1">
-                            <a class="btn btn-primary waves-effect mx-1"><i class="material-icons left-align">category</i>Enroll</a>
-                            <a class="btn btn-primary waves-effect mx-1"><i class="material-icons left-align">add</i>Add new
+                            <a class="btn btn-primary waves-effect mx-1" href="enrolled.php"><i
+                                    class="material-icons left-align">category</i>Enroll</a>
+                            <a class="btn btn-primary waves-effect mx-1" href="subjects.php"><i
+                                    class="material-icons left-align">add</i>Add new
                                 subject</a>
                         </div>
                         <h3><i class="material-icons left-align">face</i> Your Account</h3>
