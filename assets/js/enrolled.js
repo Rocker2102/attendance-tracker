@@ -74,6 +74,10 @@ $("#all-subjects").on("click", "a", function() {
 });
 
 $("#enrolled").on("click", "a", function() {
+    if (!confirm("Sure to disenroll?")) {
+        return;
+    }
+
     let item = $(this).closest("li.collection-item");
     let subjectData = new FormData;
     subjectData.append("subject_id", item.attr("ctm-code"));
