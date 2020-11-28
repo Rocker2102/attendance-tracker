@@ -7,3 +7,9 @@ async function requestEnrolledSubjects(token) {
 async function requestAllSubjects() {
     return await fetch(getApiUrl("subjects/get.php"));
 }
+
+async function requestAttendance(code, token) {
+    return await fetch(getApiUrl("attendance/get.php?subject_id=" + code),
+        { headers: { "X-Access-Token": token }
+    });
+}

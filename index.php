@@ -67,7 +67,7 @@
                     <div class="card card-body teal darken-4 text-white z-depth-5">
                         <h3><i class="material-icons left-align">analytics</i> Attendance</h3>
                         <span class="card-title">Check your subject wise attendance</span>
-                        <a class="btn btn-primary btn-block waves-effect" target="_blank" href="#"><i
+                        <a class="btn btn-primary btn-block waves-effect" target="_blank" href="attendance.php"><i
                                 class="material-icons left-align">open_in_new</i>View</a>
                     </div>
                 </div>
