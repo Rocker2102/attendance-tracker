@@ -57,6 +57,10 @@
     $subject_details = $result->fetch_assoc();
     mysqli_free_result($result);
 
+    $result = $connect->query("SELECT name FROM subjects WHERE subject_id = '$subject_id'");
+    $subject_name = $result->fetch_assoc()["name"];
+    mysqli_free_result($result);
+
     $start_date = date(DB_DATE_FORMAT, strtotime($subject_details["start_date"]));
     $end_date = date(DB_DATE_FORMAT);
     if (isset($data["start_date"]) && verify_date($data["start_date"])) {
@@ -96,6 +100,7 @@
         "message" => "Attendance calculated",
         "data" => array(
             "subject_id" => $subject_id,
+            "subject_name" => $subject_name,
             "start_date" => $start_date,
             "end_date" => $end_date,
             "holidays" => $holidays,
