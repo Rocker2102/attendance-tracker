@@ -2,8 +2,14 @@
 
 $(document).ready(function() {
     displayEnrolledSubjects(requestEnrolledSubjects(getAccessToken().token));
+    loadFromParam();
     $("select").formSelect();
 });
+
+function loadFromParam() {
+    let search = new URLSearchParams(window.location.search);
+    search.has("subject-id") ? displayAttendance(search.get("subject-id")) : false;
+}
 
 function displayEnrolledSubjects(requestPromise) {
     displayInfoMessages("#info-area", "");
