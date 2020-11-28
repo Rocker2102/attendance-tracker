@@ -76,7 +76,7 @@
 
     $query->set_table("attendance");
     $query->set_columns(["type", "date", "note"]);
-    $query->set_conditions("date BETWEEN '{$start_date}' AND '{$end_date}'");
+    $query->set_conditions("subject_id = '$subject_id' AND date BETWEEN '{$start_date}' AND '{$end_date}'");
 
     $result = $connect->query($query->get_query());
     $absent_details = [];
