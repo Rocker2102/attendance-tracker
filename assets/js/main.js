@@ -213,7 +213,7 @@ function uiInit() {
         $("#" + queryModal).modal("open");
     } catch (error) {}
 
-    if (!accessToken || accessToken == "" || accessToken == null) {
+    if (accessToken.token == "") {
         setTokenStatus("unavailable");
     } else {
         $("#logout-btn").removeClass("d-none");
