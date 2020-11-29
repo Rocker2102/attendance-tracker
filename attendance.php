@@ -35,7 +35,7 @@
                                 </div>
                             </div>
 
-                            <div class="row grey darken-3 rounded p-3 hoverable">
+                            <div class="row">
                                 <div class="col s12">
                                     <h3 id="subject-details">-</h3>
                                     <h5>Start Date: <span class="ctm-in-text" id="start-date">-</span>, Till: 
@@ -43,12 +43,35 @@
                                     <hr>
                                     <p>Total Days: <span class="ctm-in-text" id="total">0</span>, Working Days: 
                                         <span class="ctm-in-text" id="working">0</span></p>
-                                    <p>Present: <span class="ctm-in-text" id="present">0</span>, Absent: 
-                                        <span class="ctm-in-text" id="absent">0</span>, Holidays: 
-                                        <span class="ctm-in-text" id="holidays">0</span>, Weekly Offs: 
-                                        <span class="ctm-in-text" id="weekly-offs">0</span></p>
-                                    <p>Attendance (in percentage): <span class="ctm-in-text" id="percent-present">0</span></p>
-                                    <hr>
+                                    <p>Attendance (in percentage): <span class="ctm-in-text" id="percent-present">0</span> %</p>
+                                    <div class="row">
+                                        <div class="col-sm-3 center-align">
+                                            <div class="card-panel hoverable bg-success">
+                                                <span class="card-title" id="present">0</span>
+                                                Present
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3 center-align">
+                                            <div class="card-panel hoverable bg-danger">
+                                                <span class="card-title" id="absent">0</span>
+                                                Absent
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3 center-align">
+                                            <div class="card-panel hoverable bg-warning text-dark">
+                                                <span class="card-title" id="holidays">0</span>
+                                                Holidays
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3 center-align">
+                                            <div class="card-panel hoverable bg-info">
+                                                <span class="card-title" id="weekly-offs">0</span>
+                                                Weekly Offs
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <h5>Overview</h5>
                                     <div class="progress tooltipped" id="attendance-bar"
                                         data-tooltip="This is evaluated using total days (not working days)">
                                         <div class="progress-bar bg-success progress-bar-striped" style="width: 100%"></div>
