@@ -105,17 +105,27 @@ function getCookie(name) {
 function getAccessToken() {
     let key = "accessToken";
     let ls = new localStorage();
+    let token;
+    let emptyToken = {
+        token: "",
+        valid_till: ""
+    }
+
     try {
         if (ls.getState()) {
-            return JSON.parse(ls.getKey(key));
+            token = JSON.parse(ls.getKey(key));
         } else if (navigator.cookieEnabled) {
-            return JSON.parse(getCookie(key));
+            token = JSON.parse(getCookie(key));
+        }
+
+        if (token == null || typeof token == "undefined" || token == "") {
+            return emptyToken;
         } else {
-            return false;
+            return token;
         }
     } catch (error) {
         console.error(`Failed to obtain access token. ${error}`);
-        return false;
+        return emptyToken;
     }
 }
 
