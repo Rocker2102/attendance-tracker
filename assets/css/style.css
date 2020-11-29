@@ -38,9 +38,13 @@ main {
     flex: 1 0 auto;
 }
 
-a:hover {
+nav ul a:hover {
     color: inherit !important;
     text-decoration: none !important;
+}
+
+#menu-sidenav li a {
+    text-decoration: none;
 }
 
 .brand-logo > i {
@@ -96,6 +100,28 @@ ul.ctm-list-grey > span > li.collection-item {
 #enroll-modal {
     width: fit-content;
     height: fit-content;
+}
+
+li.collection-item span a {
+    color: white;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    cursor: help;
+}
+
+li.collection-item span a:hover {
+    color: lightgreen;
+}
+
+li.collection-item > a {
+    transform: scale(1.0);
+    transition: all 0.3s ease;
+}
+
+li.collection-item > a:hover {
+    color: inherit;
+    transform: scale(1.2);
+    text-decoration: none;
 }
 
 li.collection-item[disabled="disabled"] a.secondary-content {

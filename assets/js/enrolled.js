@@ -9,7 +9,7 @@ function displayEnrolledSubjects(data) {
     let container = $("#enrolled");
     container.html("");
     data.forEach(element => {
-        container.append(getRow(element, "remove"));
+        container.append(getRow(element, "remove", true));
     });
 }
 
@@ -21,11 +21,16 @@ function displayAllSubjects(data) {
     });
 }
 
-function getRow(data, rowIcon) {
+function getRow(data, rowIcon, linkStatus = false) {
+    let linked = `<a href="attendance.php?subject-id=${data.code.toLowerCase()}">
+        <strong>[${data.code}]</strong></a> ${data.name}`;
+    let unlinked = `<strong>[${data.code}]</strong> ${data.name}`;
+
     let li = createElement("li", {class: "collection-item",
         "ctm-code": data.code, "ctm-name": data.name});
     $(li).append(createElement("span", {},
-        `<strong>[${data.code}]</strong> ${data.name}`));
+        linkStatus ? linked : unlinked
+    ));
     $(li).append(createElement("a", {href: "javascript:void(0)", class: "secondary-content"},
         getMaterialIcon(rowIcon)));
     return li;
@@ -64,7 +69,7 @@ function updateAllSubjects(requestPromise) {
     }).catch(() => { showToast("Server Error!", "red", "wifi_off") });
 }
 
-$("#all-subjects").on("click", "a", function() {
+$("#all-subjects").on("click", "a.secondary-content", function() {
     let item = $(this).closest("li.collection-item");
     let enrollModal = $("#enroll-modal");
     enrollModal.find("input[name='subject_id']").val(item.attr("ctm-code"));
@@ -73,7 +78,7 @@ $("#all-subjects").on("click", "a", function() {
     enrollModal.modal("open");
 });
 
-$("#enrolled").on("click", "a", function() {
+$("#enrolled").on("click", "a.secondary-content", function() {
     let item = $(this).closest("li.collection-item");
 
     if (item.attr("disabled") == "disabled") {
