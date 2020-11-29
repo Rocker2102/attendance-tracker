@@ -8,17 +8,17 @@ $(document).ready(function() {
 function displayEnrolledSubjects(data) {
     let container = $("#enrolled");
     container.html("");
-    for (let i = 0; i < data.length; i++) {
-        container.append(getRow(data[i], "remove"));
-    }
+    data.forEach(element => {
+        container.append(getRow(element, "remove"));
+    });
 }
 
 function displayAllSubjects(data) {
     let container = $("#all-subjects");
     container.html("");
-    for (let i = 0; i < data.length; i++) {
-        container.append(getRow(data[i], "add"));
-    }
+    data.forEach(element => {
+        container.append(getRow(element, "add"));
+    });
 }
 
 function getRow(data, rowIcon) {
