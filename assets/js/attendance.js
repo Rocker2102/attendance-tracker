@@ -56,6 +56,8 @@ function displayAttendance(code) {
                 $("#working").html(attendanceData.attendance.working);
                 $("#present").html(attendanceData.attendance.present);
                 $("#absent").html(attendanceData.attendance.absent);
+                $("#holidays").html(attendanceData.holidays.length);
+                $("#weekly-offs").html(attendanceData.offdates.length);
                 $("#percent-present").html(`${(attendanceData.attendance.present / attendanceData.attendance.working).toFixed(2) * 100}%`);
 
                 let percentPresent = (attendanceData.attendance.present / attendanceData.attendance.total).toFixed(2) * 100;

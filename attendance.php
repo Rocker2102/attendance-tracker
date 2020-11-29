@@ -45,7 +45,8 @@
                                         <span class="ctm-in-text" id="working">0</span></p>
                                     <p>Present: <span class="ctm-in-text" id="present">0</span>, Absent: 
                                         <span class="ctm-in-text" id="absent">0</span>, Holidays: 
-                                        <span class="ctm-in-text" id="holidays">0</span></p>
+                                        <span class="ctm-in-text" id="holidays">0</span>, Weekly Offs: 
+                                        <span class="ctm-in-text" id="weekly-offs">0</span></p>
                                     <p>Attendance (in percentage): <span class="ctm-in-text" id="percent-present">0</span></p>
                                     <hr>
                                     <div class="progress tooltipped" id="attendance-bar"
