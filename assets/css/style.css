@@ -109,6 +109,10 @@ li.collection-item[disabled="disabled"] a.secondary-content {
     color: #fff;
 }
 
+.select-wrapper.text-light input {
+    color: white;
+}
+
 @keyframes rotate {
     100% {
         -webkit-transform: rotate(360deg);

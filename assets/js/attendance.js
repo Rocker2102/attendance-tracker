@@ -22,7 +22,7 @@ function displayEnrolledSubjects(requestPromise) {
                     html += `<option value=${element.code}>[${element.code}] ${element.name}</option>`;
                 });
                 $("#select-subject").html(html);
-                $("select").formSelect();
+                $("select").formSelect({classes: "text-light"});
             } else {
                 showToast(response.message, "red", "close");
                 displayInfoMessages("#info-area", response.message, "text-danger");
@@ -40,7 +40,7 @@ $("#select-subject").change(function() {
 });
 
 function displayAttendance(code) {
-    displayInfoMessages("#info-area", "");
+    displayInfoMessages("#info-area", "Loading..." + getSpinner("sync", "right-align"), "text-warning");
 
     requestAttendance(code, getAccessToken().token).then((request) => {
         request.json().then((response) => {
