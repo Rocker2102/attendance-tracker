@@ -1,7 +1,7 @@
 "use strict";
 
 $(document).ready(function() {
-    displayEnrolledSubjects(requestEnrolledSubjects(getAccessToken().token));
+    displayEnrolledSubjects($("#select-subject"), requestEnrolledSubjects(getAccessToken().token));
     loadFromParam();
     $("select").formSelect();
 });
@@ -9,29 +9,6 @@ $(document).ready(function() {
 function loadFromParam() {
     let search = new URLSearchParams(window.location.search);
     search.has("subject-id") ? displayAttendance(search.get("subject-id")) : false;
-}
-
-function displayEnrolledSubjects(requestPromise) {
-    displayInfoMessages("#info-area", "");
-    requestPromise.then((request) => {
-        request.json().then((response) => {
-            checkResponse(response);
-            if (!response.error) {
-                let html = "<option disabled selected>Choose a subject</option>";
-                response.data.forEach(element => {
-                    html += `<option value=${element.code}>[${element.code}] ${element.name}</option>`;
-                });
-                $("#select-subject").html(html);
-                $("select").formSelect({classes: "text-light"});
-            } else {
-                showToast(response.message, "red", "close");
-                displayInfoMessages("#info-area", response.message, "text-danger");
-            }
-        }).catch((error) => {
-            request.status == 404 ? showToast("Request Error!", "red", "cancel")
-                : responseParseError(error);
-        });
-    }).catch(() => { showToast("Server Error!", "red", "wifi_off") });
 }
 
 $("#select-subject").change(function() {
@@ -49,7 +26,7 @@ function displayAttendance(code) {
                 displayInfoMessages("#info-area", response.message, "text-success");
 
                 let attendanceData = response.data;
-                $("#subject-details").html(`${attendanceData.subject_name}, ${attendanceData.subject_id}`)
+                $("#subject-details").html(`${attendanceData.subject_name}, ${attendanceData.subject_id}`);
                 $("#start-date").html(attendanceData.start_date);
                 $("#end-date").html(attendanceData.end_date);
                 $("#total").html(attendanceData.attendance.total);
