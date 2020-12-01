@@ -61,7 +61,7 @@
                     <div class="card card-body blue darken-4 text-white z-depth-5 hoverable">
                         <h3><i class="material-icons left-align">calendar_today</i> Calender</h3>
                         <span class="card-title">Open calender to mark attendance</span>
-                        <a class="btn btn-primary btn-block waves-effect" target="_blank" href="#"><i
+                        <a class="btn btn-primary btn-block waves-effect" target="_blank" href="calender.php"><i
                                 class="material-icons left-align">open_in_new</i>Open</a>
                     </div>
                     <div class="card card-body teal darken-4 text-white z-depth-5">
