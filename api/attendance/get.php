@@ -74,6 +74,10 @@
         $end_date = $custom_end > $curr_end ? date(DB_DATE_FORMAT, $curr_end) : date(DB_DATE_FORMAT, $custom_end);
     }
 
+    if (strtotime($end_date) < strtotime($start_date)) {
+        $end_date = $start_date;
+    }
+
     $query->set_table("attendance");
     $query->set_columns(["type", "date", "note"]);
     $query->set_conditions("subject_id = '$subject_id' AND date BETWEEN '{$start_date}' AND '{$end_date}'");
