@@ -5,7 +5,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Track Attendance | Homepage</title>
+        <title>Track Attendance | Attendance</title>
 
         <link rel="icon" type="image/webp" href="assets/img/icon.png" />
         <link rel="stylesheet" type="text/css" href="assets/vendor/materialize-1.0.0/css/materialize.min.css" />
